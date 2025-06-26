@@ -108,7 +108,7 @@
 
         // --- CONFIGURACIÓN ---
         // URL de la Web App de Google Apps Script.
-        const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbw8LViMZ7MaUhapnJqry-gVSFqKL3jM7cewKeQbVQFP99pyKdR2eMkvMP2gw-TvTT3P/exec';
+        const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxCVuI-GwWlJKjIhKZ9-bJN2En9inY46qi2xOZfclPwvUWVD16uuWkGDcd3dUNwMOGb/exec';
 
         // --- ELEMENTOS DEL DOM ---
         const studentInfoSection = document.getElementById('student-info-section');
@@ -151,7 +151,7 @@
         async function saveResultsToBackend(finalScore) {
             const statusDiv = document.getElementById('submission-status');
             
-            if (BACKEND_URL === 'https://script.google.com/macros/s/AKfycbw8LViMZ7MaUhapnJqry-gVSFqKL3jM7cewKeQbVQFP99pyKdR2eMkvMP2gw-TvTT3P/exec') {
+            if (BACKEND_URL === 'https://script.google.com/macros/s/AKfycbxCVuI-GwWlJKjIhKZ9-bJN2En9inY46qi2xOZfclPwvUWVD16uuWkGDcd3dUNwMOGb/exec') {
                 statusDiv.textContent = 'Error: La URL del backend no está configurada.';
                 statusDiv.className = 'my-4 p-3 rounded-lg bg-red-100 text-red-800';
                 return;
