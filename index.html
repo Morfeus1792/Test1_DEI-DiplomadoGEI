@@ -154,7 +154,7 @@
                 });
                 const result = await response.json();
                 if (result.status === 'success') {
-                    statusDiv.textContent = 'Resultados guardados automáticamente.';
+                    statusDiv.textContent = 'Datos guardados correctamente.';
                     statusDiv.className = 'my-4 p-3 rounded-lg bg-green-100 text-green-800';
                 } else {
                     throw new Error(result.message);
