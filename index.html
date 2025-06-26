@@ -144,6 +144,7 @@
                 answers: studentAnswers.map((answerIndex, i) => answerIndex !== null ? quizData[i].options[answerIndex] : 'No respondida')
             };
 
+    
             try {
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
@@ -152,14 +153,19 @@
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(payload)
                 });
-                const result = await response.json();
-                if (result.status === 'success') {
-                    statusDiv.textContent = 'Datos guardados correctamente.';
+
+                // **CAMBIO CLAVE AQUÍ**
+                // Si la respuesta HTTP es exitosa (ej. código 200 OK), asumimos que todo funcionó,
+                // sin importar si la respuesta es un JSON válido o una redirección.
+                if (response.ok) {
+                    statusDiv.textContent = 'Resultados guardados automáticamente.';
                     statusDiv.className = 'my-4 p-3 rounded-lg bg-green-100 text-green-800';
                 } else {
-                    throw new Error(result.message);
+                    // Si el servidor responde con un error (ej. 4xx, 5xx), lo lanzamos.
+                    throw new Error('La solicitud al servidor falló con estado: ' + response.status);
                 }
             } catch (error) {
+                // Este bloque ahora captura errores de red (ej. sin conexión) o errores del servidor.
                 console.error('Error al guardar los resultados:', error);
                 statusDiv.textContent = 'Error al guardar los resultados automáticamente.';
                 statusDiv.className = 'my-4 p-3 rounded-lg bg-red-100 text-red-800';
