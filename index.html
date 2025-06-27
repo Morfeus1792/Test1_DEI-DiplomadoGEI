@@ -1,287 +1,579 @@
- <!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="es">
-
 <head>
-
+    <!-- Configuración de metadatos del documento -->
     <meta charset="UTF-8">
-
+    <!-- Asegura la correcta visualización en dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <!-- Título de la página que aparece en la pestaña del navegador -->
     <title>Examen: Diseño de Edificios Inteligentes</title>
-
+    
+    <!-- Inclusión de Tailwind CSS para un diseño rápido y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    
+    <!-- Estilos CSS personalizados -->
     <style>
-
-        body { font-family: 'Inter', sans-serif; --innotica-blue: #00448D; --innotica-yellow: #FDB813; }
-
-        .bg-innotica-blue { background-color: var(--innotica-blue); }
-
-        .text-innotica-blue { color: var(--innotica-blue); }
-
-        .bg-innotica-yellow { background-color: var(--innotica-yellow); }
-
-        .border-innotica-blue { border-color: var(--innotica-blue); }
-
-        .ring-innotica-blue { --tw-ring-color: var(--innotica-blue); }
-
-        .hover\:bg-innotica-blue-dark:hover { background-color: #003366; }
-
+        /* Importación de la fuente 'Inter' desde Google Fonts para un aspecto moderno */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        /* Aplicación de la fuente a todo el cuerpo del documento */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Estilo de fondo con un gradiente lineal, usando los colores del sitio de referencia */
+        .gradient-bg {
+            background: linear-gradient(135deg, #0047AB, #002D6C);
+        }
+        
+        /* Estilo base para el botón primario */
+        .btn-primary {
+            background-color: #0047AB; /* Color principal de Innotica */
+            transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
+        }
+        
+        /* Efecto hover para el botón primario */
+        .btn-primary:hover {
+            background-color: #00337A; /* Tono más oscuro para el hover */
+        }
+        
+        /* Estilo base para el botón secundario */
+        .btn-secondary {
+            background-color: #6c757d;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* Efecto hover para el botón secundario */
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Transición suave para la animación de la barra de progreso */
+        .progress-bar-fill {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        /* Oculta las flechas de incremento/decremento en los campos de número (para navegadores WebKit) */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        
+        /* Oculta las flechas en campos de número (para Firefox) */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
-
 </head>
+<body class="bg-gray-100 text-gray-800 flex items-center justify-center min-h-screen">
 
-<body class="bg-gray-100 text-gray-800">
-
-
+    <!-- Contenedor principal del examen -->
     <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+        <!-- Tarjeta principal que contiene todo el contenido -->
+        <div id="main-card" class="bg-white rounded-2xl shadow-2xl overflow-hidden">
 
-        <div class="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
-
-            <header class="text-center border-b pb-6 mb-6">
-
-                <h1 class="text-3xl sm:text-4xl font-bold text-innotica-blue">Examen: Diseño de Edificios Inteligentes v6</h1>
-
-                <p class="text-gray-600 mt-2">Evaluación de las clases 1 y 2 del Módulo 3.</p>
-
-            </header>
-
-
-            <div id="student-info-section">
-
-                <form id="student-info-form" class="mb-8">
-
-                    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Información del Estudiante</h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-                        <div>
-
-                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
-
-                            <input type="text" id="firstName" name="firstName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
-
-                        </div>
-
-                        <div>
-
-                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
-
-                            <input type="text" id="lastName" name="lastName" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
-
-                        </div>
-
-                        <div class="md:col-span-2">
-
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
-
-                            <input type="email" id="email" name="email" class="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-innotica-blue" required>
-
-                        </div>
-
-                    </div>
-
-                    <div class="text-center mt-6">
-
-                        <button type="submit" class="bg-innotica-blue text-white font-bold py-2 px-6 rounded-lg hover:bg-innotica-blue-dark">Comenzar Examen</button>
-
-                    </div>
-
-                </form>
-
+            <!-- Encabezado del examen -->
+            <div id="header" class="gradient-bg p-6 text-white">
+                <h1 class="text-2xl sm:text-3xl font-bold">Examen: Diseño de Edificios Inteligentes</h1>
+                <p class="mt-2 text-sm sm:text-base opacity-90">Evaluación de conocimientos de las clases 1 y 2.</p>
             </div>
 
+            <!-- Área de contenido dinámico que cambiará según la fase del examen -->
+            <div id="content-area" class="p-6 sm:p-8">
 
-            <div id="quiz-section" class="hidden">
-
-                <div class="flex justify-between items-center mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
-
-                    <div id="progress-container" class="w-full mr-4">
-
-                         <p id="progress-text" class="text-sm text-gray-600 mb-1">Progreso</p>
-
-                         <div class="w-full bg-gray-200 rounded-full h-2.5">
-
-                            <div id="progress-bar" class="bg-innotica-yellow h-2.5 rounded-full" style="width: 0%"></div>
-
+                <!-- Vista de Inicio: Formulario de datos del estudiante -->
+                <div id="start-view">
+                    <h2 class="text-xl font-semibold mb-4">Información del Estudiante</h2>
+                    <p class="mb-6 text-gray-600">Por favor, completa tus datos para comenzar el examen.</p>
+                    <form id="user-info-form">
+                        <!-- Campo para el Nombre -->
+                        <div class="mb-4">
+                            <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                            <input type="text" id="firstName" name="firstName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
                         </div>
-
-                    </div>
-
-                    <div class="text-right flex-shrink-0">
-
-                        <p class="text-sm text-gray-600">Tiempo</p>
-
-                        <div id="timer" class="text-lg font-semibold text-innotica-blue">00:00</div>
-
-                    </div>
-
+                        <!-- Campo para el Apellido -->
+                        <div class="mb-4">
+                            <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+                            <input type="text" id="lastName" name="lastName" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <!-- Campo para el Correo Electrónico -->
+                        <div class="mb-6">
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" required>
+                        </div>
+                        <!-- Botón para enviar el formulario y comenzar el examen -->
+                        <button type="submit" class="w-full btn-primary text-white font-bold py-3 px-4 rounded-lg focus:outline-none focus:shadow-outline">
+                            Comenzar Examen
+                        </button>
+                    </form>
                 </div>
 
-                <div id="quiz-container"></div>
+                <!-- Vista del Examen: Se muestra durante la resolución de preguntas -->
+                <div id="quiz-view" class="hidden">
+                    <!-- Cabecera de la pregunta: número de pregunta y temporizador -->
+                    <div class="flex justify-between items-center mb-4 flex-wrap">
+                        <div class="w-full sm:w-auto mb-2 sm:mb-0">
+                            <h2 class="text-xl font-bold">Pregunta <span id="question-number"></span> de <span id="total-questions"></span></h2>
+                        </div>
+                        <div class="flex items-center bg-gray-200 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="timer">00:00</span>
+                        </div>
+                    </div>
 
-                <div id="navigation-container" class="flex justify-between mt-6"></div>
+                    <!-- Barra de progreso del examen -->
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                        <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full progress-bar-fill" style="width: 0%"></div>
+                    </div>
 
+                    <!-- Contenedor para el texto de la pregunta y las opciones -->
+                    <div id="question-container" class="mb-6">
+                        <p id="question-text" class="text-lg mb-6"></p>
+                        <div id="options-container" class="space-y-3">
+                            <!-- Las opciones de respuesta se generarán dinámicamente aquí -->
+                        </div>
+                    </div>
+
+                    <!-- Botones de navegación del examen -->
+                    <div class="flex justify-between mt-8">
+                        <button id="prev-btn" class="btn-secondary text-white font-bold py-2 px-6 rounded-lg">Anterior</button>
+                        <button id="next-btn" class="btn-primary text-white font-bold py-2 px-6 rounded-lg">Siguiente</button>
+                    </div>
+                </div>
+                
+                <!-- Vista de Evaluación: Se muestra después de finalizar el examen -->
+                <div id="evaluating-view" class="hidden text-center">
+                    <h2 class="text-2xl font-semibold mb-4">Evaluando tus respuestas...</h2>
+                    <p class="mb-6 text-gray-600">Por favor, espera un momento.</p>
+                    <div class="w-full bg-gray-200 rounded-full h-4">
+                        <div id="eval-progress-bar" class="bg-green-500 h-4 rounded-full progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Vista de Resultados: Muestra la puntuación final y el feedback -->
+                <div id="results-view" class="hidden">
+                    <h2 class="text-3xl font-bold text-center mb-2">¡Examen Completado!</h2>
+                    <p class="text-center text-gray-600 mb-6">Este es el resumen de tu desempeño.</p>
+                    
+                    <!-- Tarjeta con la puntuación final -->
+                    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8 text-center">
+                        <p class="font-bold text-lg">Puntuación Final</p>
+                        <p class="text-5xl font-extrabold"><span id="final-score"></span> / 40</p>
+                    </div>
+                    
+                    <!-- Contenedor para la revisión y feedback de cada pregunta -->
+                    <div id="feedback-container">
+                        <h3 class="text-xl font-semibold mb-4">Revisión de Preguntas</h3>
+                        <!-- El feedback de cada pregunta se generará dinámicamente aquí -->
+                    </div>
+                    
+                    <!-- Sección final con el botón para enviar resultados por correo -->
+                    <div class="mt-8 text-center">
+                         <a id="email-btn" class="inline-block btn-primary text-white font-bold py-3 px-6 rounded-lg cursor-pointer">
+                            Enviar Resultados por Correo
+                        </a>
+                        <p class="text-xs mt-4 text-gray-500">Al hacer clic, se abrirá tu cliente de correo para enviar los resultados a Carlosdobobuto@gmail.com.</p>
+                        <!-- NUEVO: Elemento para mostrar el estado del guardado en Google Sheets -->
+                        <p id="save-status" class="text-sm font-semibold mt-4"></p>
+                    </div>
+                </div>
             </div>
-
-
-            <div id="evaluation-section" class="hidden text-center p-8">
-
-                 <h2 class="text-2xl font-bold text-innotica-blue mb-4">Evaluando tus respuestas...</h2>
-
-                 <p class="text-gray-600 mb-4">Por favor, espera un momento.</p>
-
-                 <div class="w-full bg-gray-200 rounded-full h-4"><div id="evaluation-bar" class="bg-innotica-blue h-4 rounded-full transition-all duration-500" style="width: 0%"></div></div>
-
-            </div>
-
-
-            <div id="results-container" class="hidden text-center mt-8"></div>
-
         </div>
-
+    </div>
+    
+    <!-- Modal de Confirmación para finalizar el examen -->
+    <div id="confirm-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-sm w-full">
+            <h3 class="text-xl font-bold mb-4">Confirmar Finalización</h3>
+            <p class="text-gray-600 mb-6">¿Estás seguro de que deseas finalizar el examen? No podrás cambiar tus respuestas después de esto.</p>
+            <div class="flex justify-end space-x-4">
+                <button id="cancel-finish-btn" class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancelar</button>
+                <button id="confirm-finish-btn" class="btn-primary text-white font-bold py-2 px-4 rounded-lg">Finalizar y Evaluar</button>
+            </div>
+        </div>
     </div>
 
 
-    <!-- Confirmation Modal -->
-
-    <div id="confirmation-modal" class="fixed inset-0 bg-gray-800 bg-opacity-60 z-50 flex items-center justify-center hidden">
-
-        <div class="bg-white p-8 rounded-lg shadow-2xl max-w-sm w-full mx-4">
-
-            <h3 class="text-xl font-bold text-center mb-4 text-gray-800">Confirmar Finalización</h3>
-
-            <p class="text-gray-600 text-center mb-6">¿Estás seguro de que deseas finalizar el examen?</p>
-
-            <div class="flex justify-around">
-
-                <button id="cancel-finish-btn" class="px-6 py-2 bg-gray-200 rounded-lg">Cancelar</button>
-
-                <button id="confirm-finish-btn" class="px-6 py-2 bg-innotica-blue text-white rounded-lg">Finalizar</button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <script>
-
-        const quizData = [
-
-            { question: "1. ¿Cuáles son los cuatro pilares fundamentales de la automatización de edificios?", options: ["Luz, Agua, Gas, Internet", "Cimientos, Estructura, Techo, Paredes", "Energía, Confort, Seguridad, Comunicación", "Sensores, Actuadores, Cables, Software", "Todas las anteriores", "Ninguna de las anteriores"], correct: 2, feedback: { 2: "¡Correcto! La automatización busca un equilibrio entre eficiencia energética, confort, seguridad y comunicación." } },
-
-            { question: "2. Un sensor de flujo que indica litros por minuto emite una señal:", options: ["Digital", "Analógica", "Binaria", "De alarma", "Todas las anteriores", "Ninguna de las anteriores"], correct: 1, feedback: { 1: "¡Correcto! Representa una variación continua." } }
-
+<script>
+    // --- Espera a que todo el contenido del DOM esté cargado para ejecutar el script ---
+    document.addEventListener('DOMContentLoaded', () => {
+        
+        // --- BASE DE DATOS DE PREGUNTAS DEL EXAMEN ---
+        // Array de objetos, donde cada objeto representa una pregunta.
+        const questions = [
+            {
+                question: "¿Cuál es el propósito principal de un Sistema de Automatización de Edificios (BAS)?",
+                options: [
+                    "Controlar exclusivamente la iluminación.",
+                    "Gestionar la seguridad perimetral del edificio.",
+                    "Centralizar y optimizar el control de sistemas mecánicos y eléctricos (HVAC, iluminación, etc.).",
+                    "Proveer acceso a internet de alta velocidad a los ocupantes.",
+                ],
+                correct: 2, // Índice de la respuesta correcta en el array 'options'
+                feedback: "Correcto. Un BAS (Building Automation System) integra y controla múltiples sistemas del edificio como Climatización (HVAC), iluminación y energía para mejorar la eficiencia y el confort."
+            },
+            {
+                question: "El protocolo de comunicación estándar y abierto más común en la automatización de edificios es:",
+                options: [
+                    "Modbus",
+                    "LonWorks",
+                    "KNX",
+                    "BACnet",
+                ],
+                correct: 3,
+                feedback: "Correcto. BACnet (Building Automation and Control Networks) es un estándar global diseñado específicamente para la automatización de edificios, permitiendo la interoperabilidad entre equipos de diferentes fabricantes."
+            },
+            {
+                question: "¿Qué representa el término 'HVAC' en el contexto de edificios inteligentes?",
+                options: [
+                    "High Voltage Alternating Current",
+                    "Heating, Ventilation, and Air Conditioning",
+                    "Human-Visible Access Control",
+                    "Home Video and Audio Control",
+                ],
+                correct: 1,
+                feedback: "Correcto. HVAC son las siglas en inglés para Calefacción, Ventilación y Aire Acondicionado, uno de los sistemas más importantes gestionados por un BAS para confort y eficiencia energética."
+            },
+            {
+                question: "En un sistema de iluminación inteligente, ¿qué tecnología permite direccionar y controlar luminarias de forma individual?",
+                options: [
+                    "Control 0-10V",
+                    "Control por fase",
+                    "DALI (Digital Addressable Lighting Interface)",
+                    "Switching simple",
+                ],
+                correct: 2,
+                feedback: "Correcto. DALI es un protocolo digital que permite la comunicación bidireccional con cada luminaria, lo que facilita el control individual, la dimerización y el reporte de estado."
+            },
+            {
+                question: "La 'convergencia de redes' en un edificio inteligente se refiere a:",
+                options: [
+                    "Tener múltiples redes WiFi para diferentes usuarios.",
+                    "Usar una única infraestructura de red IP para datos, voz, video y sistemas de automatización.",
+                    "Separar físicamente la red de control de la red de datos corporativa.",
+                    "Utilizar fibra óptica en lugar de cable de cobre.",
+                ],
+                correct: 1,
+                feedback: "Correcto. La convergencia implica unificar diferentes servicios y sistemas sobre una misma red basada en Protocolo de Internet (IP), simplificando la infraestructura y la gestión."
+            },
+            {
+                question: "¿Qué es el 'IoT' (Internet de las Cosas) en el contexto de un edificio inteligente?",
+                options: [
+                    "Un tipo de software para modelado 3D.",
+                    "Un estándar de seguridad informática.",
+                    "La red de sensores y dispositivos conectados a internet que recopilan e intercambian datos.",
+                    "Un sistema de cableado estructurado.",
+                ],
+                correct: 2,
+                feedback: "Correcto. El IoT se refiere a la vasta red de dispositivos físicos (sensores, actuadores) que se conectan a internet para recopilar información del entorno y actuar sobre él."
+            },
+            {
+                question: "Un sensor de ocupación PIR (Passive Infrared) detecta:",
+                options: [
+                    "Sonido",
+                    "Movimiento a través de ondas ultrasónicas.",
+                    "El calor corporal (energía infrarroja) emitido por las personas.",
+                    "Niveles de CO2 en el ambiente.",
+                ],
+                correct: 2,
+                feedback: "Correcto. Los sensores PIR son pasivos y detectan la radiación infrarroja emitida por los cuerpos, lo que los hace ideales para detectar presencia y automatizar la iluminación o el HVAC."
+            },
+            {
+                question: "¿Cuál de los siguientes es un beneficio clave del diseño de edificios inteligentes?",
+                options: [
+                    "Aumento del costo inicial de construcción únicamente.",
+                    "Mayor complejidad en el mantenimiento.",
+                    "Reducción de los costos operativos y del consumo de energía.",
+                    "Disminución de la comodidad de los ocupantes.",
+                ],
+                correct: 2,
+                feedback: "Correcto. Aunque puede haber una mayor inversión inicial, el principal beneficio a largo plazo es la optimización del uso de recursos, resultando en ahorros significativos."
+            },
+             {
+                question: "El concepto de 'Digital Twin' o Gemelo Digital en edificios se refiere a:",
+                options: [
+                    "Un segundo edificio idéntico construido como respaldo.",
+                    "Una réplica virtual y dinámica del edificio físico, sus sistemas y procesos.",
+                    "El manual de operaciones en formato PDF.",
+                    "Un sistema de control de acceso biométrico.",
+                ],
+                correct: 1,
+                feedback: "Correcto. Un Gemelo Digital es un modelo virtual que se actualiza en tiempo real con datos de sensores del edificio real. Se usa para simulación, análisis predictivo y optimización."
+            },
+            {
+                question: "¿Qué es el Cableado Estructurado?",
+                options: [
+                    "Un método para organizar cables de forma desordenada.",
+                    "Un sistema de cableado diseñado para un solo tipo de aplicación, como telefonía.",
+                    "Un sistema estandarizado de cables y hardware que forma una infraestructura de telecomunicaciones completa.",
+                    "El cableado que conecta los interruptores a las luces.",
+                ],
+                correct: 2,
+                feedback: "Correcto. El Cableado Estructurado es un enfoque metódico y estandarizado para instalar la infraestructura de red de un edificio, asegurando flexibilidad y escalabilidad."
+            }
         ];
+        
+        // --- VARIABLES DE ESTADO Y CONFIGURACIÓN ---
+        let currentQuestionIndex = 0; // Índice de la pregunta actual.
+        let userAnswers = new Array(questions.length).fill(null); // Array para almacenar las respuestas del usuario.
+        let userInfo = {}; // Objeto para guardar la información del estudiante.
+        let timerInterval; // Variable para el intervalo del temporizador.
+        let secondsElapsed = 0; // Contador de segundos transcurridos.
+        const totalPoints = 40; // Puntuación total posible del examen.
+        // ACTUALIZADO: La URL de la aplicación web ahora está incluida directamente.
+        const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbzPbc7_Kx5AE35H5Gpv0t5jsU_RvY8CCVxMJ1zF57Sp3E7wpmK3mzYtrR-1RqUK_raY/exec';
 
-
-        // --- CONFIGURACIÓN ---
-
-        const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzPbc7_Kx5AE35H5Gpv0t5jsU_RvY8CCVxMJ1zF57Sp3E7wpmK3mzYtrR-1RqUK_raY/exec';
-
-
-        // --- ELEMENTOS DEL DOM ---
-
-        const studentInfoSection = document.getElementById('student-info-section');
-
-        const studentInfoForm = document.getElementById('student-info-form');
-
-        const quizSection = document.getElementById('quiz-section');
-
-        const quizContainer = document.getElementById('quiz-container');
-
-        const navigationContainer = document.getElementById('navigation-container');
-
+        // --- REFERENCIAS A ELEMENTOS DEL DOM ---
+        const startView = document.getElementById('start-view');
+        const quizView = document.getElementById('quiz-view');
+        const resultsView = document.getElementById('results-view');
+        const evaluatingView = document.getElementById('evaluating-view');
+        const confirmModal = document.getElementById('confirm-modal');
+        const userInfoForm = document.getElementById('user-info-form');
+        const questionNumberEl = document.getElementById('question-number');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const progressBar = document.getElementById('progress-bar');
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
         const timerEl = document.getElementById('timer');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const confirmFinishBtn = document.getElementById('confirm-finish-btn');
+        const cancelFinishBtn = document.getElementById('cancel-finish-btn');
+        const finalScoreEl = document.getElementById('final-score');
+        const feedbackContainer = document.getElementById('feedback-container');
+        const emailBtn = document.getElementById('email-btn');
+        const saveStatusEl = document.getElementById('save-status'); // NUEVO: Referencia al elemento de estado.
 
-        const evaluationSection = document.getElementById('evaluation-section');
+        // --- FUNCIONES PRINCIPALES DEL EXAMEN ---
 
-        const resultsContainer = document.getElementById('results-container');
-
-        const confirmationModal = document.getElementById('confirmation-modal');
-
-        
-
-        // --- VARIABLES DE ESTADO ---
-
-        let currentQuestionIndex = 0;
-
-        let studentAnswers = new Array(quizData.length).fill(null);
-
-        let studentInfo = {};
-
-        let timerInterval;
-
-        let seconds = 0;
-
-
-        // --- LÓGICA DEL EXAMEN ---
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-            studentInfoForm.addEventListener('submit', startQuiz);
-
-            document.getElementById('cancel-finish-btn').addEventListener('click', () => confirmationModal.classList.add('hidden'));
-
-            document.getElementById('confirm-finish-btn').addEventListener('click', finishQuiz);
-
-        });
-
-
-        function startQuiz(e) { e.preventDefault(); studentInfo.firstName = document.getElementById('firstName').value; studentInfo.lastName = document.getElementById('lastName').value; studentInfo.email = document.getElementById('email').value; if (studentInfo.firstName && studentInfo.lastName && studentInfo.email) { studentInfoSection.classList.add('hidden'); quizSection.classList.remove('hidden'); startTimer(); displayQuestion(); } }
-
-        function displayQuestion() { const q = quizData[currentQuestionIndex]; quizContainer.innerHTML = `<div class="bg-gray-50 p-6 rounded-lg shadow-inner"><p class="mb-6 text-lg text-gray-800">${q.question}</p><div class="space-y-3">${q.options.map((o, i) => `<div class="option bg-white p-4 rounded-lg border border-gray-200 hover:bg-blue-50 hover:border-innotica-blue cursor-pointer" data-index="${i}"><label class="w-full h-full block cursor-pointer">${o}</label></div>`).join('')}</div></div>`; if (studentAnswers[currentQuestionIndex] !== null) { quizContainer.querySelector(`[data-index='${studentAnswers[currentQuestionIndex]}']`).classList.add('bg-blue-100', 'border-innotica-blue'); } quizContainer.querySelectorAll('.option').forEach(o => o.addEventListener('click', selectAnswer)); updateNavigation(); updateProgressBar(); }
-
-        function selectAnswer(e) { const i = parseInt(e.currentTarget.dataset.index); studentAnswers[currentQuestionIndex] = i; quizContainer.querySelectorAll('.option').forEach(o => o.classList.remove('bg-blue-100', 'border-innotica-blue')); e.currentTarget.classList.add('bg-blue-100', 'border-innotica-blue'); }
-
-        function updateNavigation() { navigationContainer.innerHTML = `<button id="prev-btn" class="px-6 py-2 bg-gray-300 rounded-lg ${currentQuestionIndex === 0 ? 'invisible' : ''}">Anterior</button>${currentQuestionIndex === quizData.length - 1 ? `<button id="finish-btn" class="px-6 py-2 bg-innotica-blue text-white font-bold rounded-lg">Finalizar</button>` : `<button id="next-btn" class="px-6 py-2 bg-innotica-blue text-white rounded-lg">Siguiente</button>`}`; if (currentQuestionIndex > 0) document.getElementById('prev-btn').addEventListener('click', handlePrevQuestion); if (currentQuestionIndex < quizData.length - 1) document.getElementById('next-btn').addEventListener('click', handleNextQuestion); else document.getElementById('finish-btn').addEventListener('click', () => confirmationModal.classList.remove('hidden')); }
-
-        function handleNextQuestion() { if (currentQuestionIndex < quizData.length - 1) { currentQuestionIndex++; displayQuestion(); } }
-
-        function handlePrevQuestion() { if (currentQuestionIndex > 0) { currentQuestionIndex--; displayQuestion(); } }
-
-        function finishQuiz() { confirmationModal.classList.add('hidden'); quizSection.classList.add('hidden'); evaluationSection.classList.remove('hidden'); clearInterval(timerInterval); let p = 0; const i = setInterval(() => { p += 20; document.getElementById('evaluation-bar').style.width = `${p}%`; if (p >= 100) { clearInterval(i); setTimeout(() => { evaluationSection.classList.add('hidden'); showResults(); }, 500); } }, 1000); }
-
-        async function showResults() { resultsContainer.classList.remove('hidden'); const c = studentAnswers.filter((a, i) => a === quizData[i].correct).length; const s = ((c / quizData.length) * 40).toFixed(2); resultsContainer.innerHTML = `<h2 class="text-3xl font-bold text-innotica-blue mb-4">Resultados</h2><p class="text-xl mb-2">Puntuación Final:</p><p class="text-5xl font-bold text-innotica-blue mb-6">${s} / 40.00</p><div id="submission-status" class="my-4 p-3 rounded-lg bg-green-100 text-gray-700">Resultados guarados con éxito...</div><div class="text-left space-y-6">${quizData.map((q, i) => { const u = studentAnswers[i]; const r = u === q.correct; const f = r ? q.feedback[u] : 'Respuesta incorrecta.'; return `<div class="p-4 rounded-lg ${r ? 'bg-green-50 border-l-4 border-green-500' : 'bg-red-50 border-l-4 border-red-500'}"><p class="font-bold">${q.question}</p><p class="mt-2">Tu respuesta: <span class="font-semibold">${u !== null ? q.options[u] : 'No respondida'}</span></p><p class="mt-2 text-sm ${r ? 'text-green-700' : 'text-red-700'}">${f}</p></div>`; }).join('')}</div><div class="mt-8"><button id="send-email-btn" class="bg-gray-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-gray-700">Preparar Correo</button></div>`; document.getElementById('send-email-btn').addEventListener('click', sendEmail); await saveResultsToBackend(s); }
-
-        function startTimer() { timerInterval = setInterval(() => { seconds++; const m = Math.floor(seconds / 60).toString().padStart(2, '0'); const s = (seconds % 60).toString().padStart(2, '0'); timerEl.textContent = `${m}:${s}`; }, 1000); }
-
-        function updateProgressBar() { document.getElementById('progress-text').textContent = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}`; document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / quizData.length) * 100}%`; }
-
-        function sendEmail() { const s = ((studentAnswers.filter((a, i) => a === quizData[i].correct).length / quizData.length) * 40).toFixed(2); const t = "carlosdobobuto@gmail.com"; const j = `Resultados: ${studentInfo.firstName} ${studentInfo.lastName}`; let b = `Resultados del Examen:\nNombre: ${studentInfo.firstName} ${studentInfo.lastName}\nCorreo: ${studentInfo.email}\nTiempo: ${timerEl.textContent}\n\nPUNTUACIÓN: ${s} / 40.00\n\n------------------\n\n`; quizData.forEach((q, i) => { const u = studentAnswers[i]; const c = u === q.correct; const f = c ? q.feedback[u] : 'Respuesta incorrecta.'; b += `${q.question}\nRespuesta: ${u !== null ? q.options[u] : 'No respondida'} (${c ? 'Correcta' : 'Incorrecta'})\nFeedback: ${f}\n\n`; }); window.location.href = `mailto:${t}?subject=${encodeURIComponent(j)}&body=${encodeURIComponent(b)}`; }
-
-        
-
-        async function saveResultsToBackend(finalScore) {
-
-            const statusDiv = document.getElementById('submission-status');
-
-            const payload = {
-
-                firstName: studentInfo.firstName,
-
-                lastName: studentInfo.lastName,
-
-                email: studentInfo.email,
-
-                finalScore: finalScore,
-
-                totalTime: timerEl.textContent,
-
-                answers: studentAnswers.map((answerIndex, i) => answerIndex !== null ? quizData[i].options[answerIndex] : 'No respondida')
-
+        function startQuiz() {
+            userInfo = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value
             };
-
-
+            startView.classList.add('hidden');
+            quizView.classList.remove('hidden');
+            startTimer();
+            totalQuestionsEl.textContent = questions.length;
+            loadQuestion(currentQuestionIndex);
         }
 
-    </script>
+        function loadQuestion(index) {
+            const question = questions[index];
+            const fullOptions = [...question.options, "Todas las anteriores.", "Ninguna de las anteriores."];
+            questionNumberEl.textContent = index + 1;
+            questionTextEl.textContent = question.question;
+            optionsContainer.innerHTML = '';
+
+            fullOptions.forEach((option, i) => {
+                const isChecked = userAnswers[index] === i;
+                const optionId = `q${index}_option${i}`;
+                const optionElement = document.createElement('label');
+                optionElement.htmlFor = optionId;
+                optionElement.className = `flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${isChecked ? 'bg-blue-100 border-blue-500 ring-2 ring-blue-500' : 'border-gray-300 hover:border-blue-400'}`;
+                optionElement.innerHTML = `
+                    <input type="radio" id="${optionId}" name="question${index}" value="${i}" class="hidden">
+                    <span class="w-5 h-5 mr-4 flex-shrink-0 rounded-full border-2 flex items-center justify-center ${isChecked ? 'border-blue-600' : 'border-gray-400'}">
+                        ${isChecked ? '<span class="w-2.5 h-2.5 bg-blue-600 rounded-full"></span>' : ''}
+                    </span>
+                    <span class="text-gray-800">${option}</span>
+                `;
+                optionElement.addEventListener('click', () => selectAnswer(index, i));
+                optionsContainer.appendChild(optionElement);
+            });
+            updateNavigation();
+            updateProgressBar();
+        }
+        
+        function selectAnswer(questionIndex, answerIndex) {
+            userAnswers[questionIndex] = answerIndex;
+            loadQuestion(questionIndex);
+        }
+
+        function updateNavigation() {
+            prevBtn.classList.toggle('hidden', currentQuestionIndex === 0);
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'Finalizar';
+            } else {
+                nextBtn.textContent = 'Siguiente';
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function navigateQuestion(direction) {
+            if (direction === 1 && currentQuestionIndex === questions.length - 1) {
+                showConfirmationModal();
+                return;
+            }
+            currentQuestionIndex += direction;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                timerEl.textContent = formatTime(secondsElapsed);
+            }, 1000);
+        }
+
+        function formatTime(totalSeconds) {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+        
+        function showConfirmationModal() {
+            confirmModal.classList.remove('hidden');
+        }
+
+        function hideConfirmationModal() {
+            confirmModal.classList.add('hidden');
+        }
+
+        function finishExam() {
+            hideConfirmationModal();
+            clearInterval(timerInterval);
+            quizView.classList.add('hidden');
+            evaluatingView.classList.remove('hidden');
+            const evalProgressBar = document.getElementById('eval-progress-bar');
+            evalProgressBar.style.width = '100%';
+            
+            setTimeout(() => {
+                evaluatingView.classList.add('hidden');
+                calculateAndShowResults();
+            }, 5000);
+        }
+
+        function calculateAndShowResults() {
+            let correctAnswers = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === questions[index].correct) {
+                    correctAnswers++;
+                }
+            });
+
+            const score = (correctAnswers / questions.length) * totalPoints;
+            finalScoreEl.textContent = score.toFixed(2);
+            feedbackContainer.innerHTML = '';
+            questions.forEach((q, index) => {
+                const userAnswerIndex = userAnswers[index];
+                const fullOptions = [...q.options, "Todas las anteriores.", "Ninguna de las anteriores."];
+                const userAnswerText = userAnswerIndex !== null ? fullOptions[userAnswerIndex] : "No respondida";
+                const isCorrect = userAnswerIndex === q.correct;
+
+                const feedbackElement = document.createElement('div');
+                feedbackElement.className = `p-4 mb-4 rounded-lg border-l-4 ${isCorrect ? 'bg-green-50 border-green-500' : 'bg-red-50 border-red-500'}`;
+                feedbackElement.innerHTML = `
+                    <p class="font-bold text-gray-800">${index + 1}. ${q.question}</p>
+                    <p class="mt-2 text-sm">Tu respuesta: <span class="font-semibold">${userAnswerText}</span></p>
+                    <p class="mt-1 text-sm ${isCorrect ? 'text-green-700' : 'text-red-700'}">${isCorrect ? '¡Correcto!' : 'Incorrecto.'}</p>
+                    <p class="mt-2 text-xs text-gray-600">${q.feedback}</p>
+                `;
+                feedbackContainer.appendChild(feedbackElement);
+            });
+            
+            resultsView.classList.remove('hidden');
+            prepareEmail();
+            sendDataToGoogleSheets();
+        }
+
+        function prepareEmail() {
+            const subject = `Resultados del Examen de ${userInfo.firstName} ${userInfo.lastName}`;
+            let body = `Resultados del Examen - Diseño de Edificios Inteligentes\n\n`;
+            body += `Estudiante: ${userInfo.firstName} ${userInfo.lastName}\n`;
+            body += `Correo: ${userInfo.email}\n`;
+            body += `Tiempo empleado: ${formatTime(secondsElapsed)}\n`;
+            body += `Puntuación Final: ${finalScoreEl.textContent} / ${totalPoints}\n\n`;
+            body += `----------------------------------------\n\n`;
+
+            questions.forEach((q, index) => {
+                const fullOptions = [...q.options, "Todas las anteriores.", "Ninguna de las anteriores."];
+                const userAnswerText = userAnswers[index] !== null ? fullOptions[userAnswers[index]] : "No respondida";
+                const isCorrect = userAnswers[index] === q.correct;
+                body += `Pregunta ${index + 1}: ${q.question}\n`;
+                body += `Tu respuesta: ${userAnswerText} (${isCorrect ? 'Correcta' : 'Incorrecta'})\n`;
+                body += `Feedback: ${q.feedback}\n\n`;
+            });
+            emailBtn.href = `mailto:Carlosdobobuto@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+        
+        /**
+         * Envía los datos del examen a la aplicación web de Google Apps Script.
+         * AHORA MANEJA EL ESTADO VISUALMENTE.
+         */
+        async function sendDataToGoogleSheets() {
+            // Mostrar estado inicial de guardado.
+            saveStatusEl.textContent = 'Guardando resultados en la nube...';
+            saveStatusEl.className = 'text-sm font-semibold mt-4 text-gray-500';
+
+            const formData = new FormData();
+            formData.append('sheetName', 'Test1-DiseñoEdificiosInteligentes-06.2025');
+            formData.append('timestamp', new Date().toLocaleString('es-VE'));
+            formData.append('firstName', userInfo.firstName);
+            formData.append('lastName', userInfo.lastName);
+            formData.append('email', userInfo.email);
+            formData.append('score', finalScoreEl.textContent);
+            formData.append('totalPoints', totalPoints);
+            formData.append('timeTaken', formatTime(secondsElapsed));
+            
+            questions.forEach((q, i) => {
+                 const fullOptions = [...q.options, "Todas las anteriores.", "Ninguna de las anteriores."];
+                 const userAnswerText = userAnswers[i] !== null ? fullOptions[userAnswers[i]] : "No respondida";
+                 formData.append(`question_${i+1}`, q.question);
+                 formData.append(`answer_${i+1}`, userAnswerText);
+                 formData.append(`isCorrect_${i+1}`, userAnswers[i] === q.correct);
+            });
+
+            try {
+                // El `mode: 'cors'` es el comportamiento por defecto de fetch, pero es bueno ser explícito.
+                const response = await fetch(gasWebAppUrl, {
+                    method: 'POST',
+                    body: formData,
+                });
+                
+                // El backend ahora devuelve JSON, así que lo parseamos.
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    // Actualizar UI para mostrar éxito.
+                    saveStatusEl.textContent = 'Resultados guardados correctamente.';
+                    saveStatusEl.className = 'text-sm font-semibold mt-4 text-green-600';
+                } else {
+                    // Mostrar el mensaje de error devuelto por el script.
+                    throw new Error(result.message || 'El script de Google devolvió un error.');
+                }
+
+            } catch (error) {
+                // Actualizar UI para mostrar el error.
+                saveStatusEl.textContent = 'Error al guardar los resultados.';
+                saveStatusEl.className = 'text-sm font-semibold mt-4 text-red-600';
+                
+                // Imprimir un mensaje de error detallado en la consola para depuración.
+                console.error('Error al enviar datos a Google Sheets:', error);
+                console.error('--- POSIBLE SOLUCIÓN ---');
+                console.error('Este error usualmente ocurre por un problema de CORS. Asegúrate de que tu Google Apps Script esté implementado como "Aplicación Web" y que la opción "Quién tiene acceso" esté configurada como "Cualquier persona". Además, verifica que la función `doPost` en tu script devuelva una respuesta JSON usando `ContentService`.');
+            }
+        }
+
+        // --- ASIGNACIÓN DE EVENT LISTENERS ---
+        userInfoForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            startQuiz();
+        });
+        prevBtn.addEventListener('click', () => navigateQuestion(-1));
+        nextBtn.addEventListener('click', () => navigateQuestion(1));
+        confirmFinishBtn.addEventListener('click', finishExam);
+        cancelFinishBtn.addEventListener('click', hideConfirmationModal);
+
+    });
+</script>
 
 </body>
-
-</html> 
+</html>
