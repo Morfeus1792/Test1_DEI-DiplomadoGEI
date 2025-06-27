@@ -75,7 +75,7 @@
 
             <!-- Encabezado del examen -->
             <div id="header" class="gradient-bg p-6 text-white">
-                <h1 class="text-2xl sm:text-3xl font-bold">Examen: Diseño de Edificios Inteligentes new</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold">Examen: Diseño de Edificios Inteligentes</h1>
                 <p class="mt-2 text-sm sm:text-base opacity-90">Evaluación de conocimientos de las clases 1 y 2.</p>
             </div>
 
@@ -168,14 +168,10 @@
                         <!-- El feedback de cada pregunta se generará dinámicamente aquí -->
                     </div>
                     
-                    <!-- Sección final con el botón para enviar resultados por correo -->
+                    <!-- Sección final con el estado del envío automático -->
                     <div class="mt-8 text-center">
-                         <a id="email-btn" class="inline-block btn-primary text-white font-bold py-3 px-6 rounded-lg cursor-pointer">
-                            Enviar Resultados por Correo
-                        </a>
-                        <p class="text-xs mt-4 text-gray-500">Al hacer clic, se abrirá tu cliente de correo para enviar los resultados a Carlosdobobuto@gmail.com.</p>
-                        <!-- NUEVO: Elemento para mostrar el estado del guardado en Google Sheets -->
-                        <p id="save-status" class="text-sm font-semibold mt-4"></p>
+                         <!-- El botón de correo manual se ha eliminado. El estado del envío automático se mostrará a continuación. -->
+                         <p id="save-status" class="text-sm font-semibold mt-4"></p>
                     </div>
                 </div>
             </div>
@@ -322,7 +318,7 @@
         let secondsElapsed = 0; // Contador de segundos transcurridos.
         const totalPoints = 40; // Puntuación total posible del examen.
         // ACTUALIZADO: La URL de la aplicación web ahora está incluida directamente.
-        const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbzPbc7_Kx5AE35H5Gpv0t5jsU_RvY8CCVxMJ1zF57Sp3E7wpmK3mzYtrR-1RqUK_raY/exec';
+        const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwxtLsJ4P1CBjGHxJCbJ5mZQyJS0RIDopEomKEYspEVHuzVCkJIJDmST6y753bu-nuocg/exec';
 
         // --- REFERENCIAS A ELEMENTOS DEL DOM ---
         const startView = document.getElementById('start-view');
@@ -343,8 +339,7 @@
         const cancelFinishBtn = document.getElementById('cancel-finish-btn');
         const finalScoreEl = document.getElementById('final-score');
         const feedbackContainer = document.getElementById('feedback-container');
-        const emailBtn = document.getElementById('email-btn');
-        const saveStatusEl = document.getElementById('save-status'); // NUEVO: Referencia al elemento de estado.
+        const saveStatusEl = document.getElementById('save-status'); // Referencia al elemento de estado.
 
         // --- FUNCIONES PRINCIPALES DEL EXAMEN ---
 
@@ -480,37 +475,16 @@
             });
             
             resultsView.classList.remove('hidden');
-            prepareEmail();
             sendDataToGoogleSheets();
         }
 
-        function prepareEmail() {
-            const subject = `Resultados del Examen de ${userInfo.firstName} ${userInfo.lastName}`;
-            let body = `Resultados del Examen - Diseño de Edificios Inteligentes\n\n`;
-            body += `Estudiante: ${userInfo.firstName} ${userInfo.lastName}\n`;
-            body += `Correo: ${userInfo.email}\n`;
-            body += `Tiempo empleado: ${formatTime(secondsElapsed)}\n`;
-            body += `Puntuación Final: ${finalScoreEl.textContent} / ${totalPoints}\n\n`;
-            body += `----------------------------------------\n\n`;
-
-            questions.forEach((q, index) => {
-                const fullOptions = [...q.options, "Todas las anteriores.", "Ninguna de las anteriores."];
-                const userAnswerText = userAnswers[index] !== null ? fullOptions[userAnswers[index]] : "No respondida";
-                const isCorrect = userAnswers[index] === q.correct;
-                body += `Pregunta ${index + 1}: ${q.question}\n`;
-                body += `Tu respuesta: ${userAnswerText} (${isCorrect ? 'Correcta' : 'Incorrecta'})\n`;
-                body += `Feedback: ${q.feedback}\n\n`;
-            });
-            emailBtn.href = `mailto:Carlosdobobuto@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        }
-        
         /**
          * Envía los datos del examen a la aplicación web de Google Apps Script.
-         * AHORA MANEJA EL ESTADO VISUALMENTE.
+         * El script se encarga de guardar en la hoja y enviar el correo.
          */
         async function sendDataToGoogleSheets() {
             // Mostrar estado inicial de guardado.
-            saveStatusEl.textContent = 'Guardando resultados en la nube...';
+            saveStatusEl.textContent = 'Procesando resultados y enviando notificación...';
             saveStatusEl.className = 'text-sm font-semibold mt-4 text-gray-500';
 
             const formData = new FormData();
@@ -532,33 +506,30 @@
             });
 
             try {
-                // El `mode: 'cors'` es el comportamiento por defecto de fetch, pero es bueno ser explícito.
                 const response = await fetch(gasWebAppUrl, {
                     method: 'POST',
                     body: formData,
                 });
                 
-                // El backend ahora devuelve JSON, así que lo parseamos.
                 const result = await response.json();
                 
-                if (result.status === 'success') {
-                    // Actualizar UI para mostrar éxito.
-                    saveStatusEl.textContent = 'Resultados guardados correctamente.';
+                // La respuesta del script ahora contiene el estado de la hoja y del correo.
+                if (result.sheet.status === 'success' && result.email.status === 'success') {
+                    // Actualizar UI para mostrar éxito total.
+                    saveStatusEl.textContent = 'Resultados guardados y correo enviado correctamente.';
                     saveStatusEl.className = 'text-sm font-semibold mt-4 text-green-600';
                 } else {
-                    // Mostrar el mensaje de error devuelto por el script.
-                    throw new Error(result.message || 'El script de Google devolvió un error.');
+                    // Construir un mensaje de error más detallado si algo falla.
+                    let errorMessage = `Hoja: ${result.sheet.message} | Correo: ${result.email.message}`;
+                    throw new Error(errorMessage);
                 }
 
             } catch (error) {
                 // Actualizar UI para mostrar el error.
-                saveStatusEl.textContent = 'Error al guardar los resultados.';
+                saveStatusEl.textContent = `Error en el envío automático: ${error.message}`;
                 saveStatusEl.className = 'text-sm font-semibold mt-4 text-red-600';
                 
-                // Imprimir un mensaje de error detallado en la consola para depuración.
                 console.error('Error al enviar datos a Google Sheets:', error);
-                console.error('--- POSIBLE SOLUCIÓN ---');
-                console.error('Este error usualmente ocurre por un problema de CORS. Asegúrate de que tu Google Apps Script esté implementado como "Aplicación Web" y que la opción "Quién tiene acceso" esté configurada como "Cualquier persona". Además, verifica que la función `doPost` en tu script devuelva una respuesta JSON usando `ContentService`.');
             }
         }
 
