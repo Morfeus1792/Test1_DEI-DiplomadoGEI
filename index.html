@@ -6,7 +6,7 @@
     <!-- Asegura la correcta visualización en dispositivos móviles -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Título de la página que aparece en la pestaña del navegador -->
-    <title>Examen: Diseño de Edificios Inteligentes</title>
+    <title>Examen final del módulo Diseño de Edificios Inteligentes</title>
     
     <!-- Inclusión de Tailwind CSS para un diseño rápido y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,18 +23,18 @@
         
         /* Estilo de fondo con un gradiente lineal, usando los colores del sitio de referencia */
         .gradient-bg {
-            background: linear-gradient(135deg, #0047AB, #002D6C);
+            background: linear-gradient(135deg, #00448D, #002D6C); /* Gradiente con los colores de Innotica */
         }
         
         /* Estilo base para el botón primario */
         .btn-primary {
-            background-color: #0047AB; /* Color principal de Innotica */
+            background-color: #00448D; /* Color principal de Innotica */
             transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
         }
         
         /* Efecto hover para el botón primario */
         .btn-primary:hover {
-            background-color: #00337A; /* Tono más oscuro para el hover */
+            background-color: #003366; /* Tono más oscuro para el hover */
         }
         
         /* Estilo base para el botón secundario */
@@ -53,16 +53,18 @@
             transition: width 0.5s ease-in-out;
         }
         
-        /* Oculta las flechas de incremento/decremento en los campos de número (para navegadores WebKit) */
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        /* Animación del loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #00448D;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
         }
-        
-        /* Oculta las flechas en campos de número (para Firefox) */
-        input[type=number] {
-            -moz-appearance: textfield;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -75,8 +77,8 @@
 
             <!-- Encabezado del examen -->
             <div id="header" class="gradient-bg p-6 text-white">
-                <h1 class="text-2xl sm:text-3xl font-bold">Examen: Diseño de Edificios Inteligentes doble envío</h1>
-                <p class="mt-2 text-sm sm:text-base opacity-90">Evaluación de conocimientos de las clases 1 y 2.</p>
+                <h1 class="text-2xl sm:text-3xl font-bold">Examen final del módulo Diseño de Edificios Inteligentes</h1>
+                <p class="mt-2 text-sm sm:text-base opacity-90">Evaluación final de conocimientos del Módulo 3.</p>
             </div>
 
             <!-- Área de contenido dinámico que cambiará según la fase del examen -->
@@ -147,7 +149,7 @@
                     <h2 class="text-2xl font-semibold mb-4">Evaluando tus respuestas...</h2>
                     <p class="mb-6 text-gray-600">Por favor, espera un momento.</p>
                     <div class="w-full bg-gray-200 rounded-full h-4">
-                        <div id="eval-progress-bar" class="bg-green-500 h-4 rounded-full progress-bar-fill" style="width: 0%"></div>
+                        <div id="eval-progress-bar" class="bg-blue-600 h-4 rounded-full progress-bar-fill" style="width: 0%"></div>
                     </div>
                 </div>
 
@@ -157,9 +159,9 @@
                     <p class="text-center text-gray-600 mb-6">Este es el resumen de tu desempeño.</p>
                     
                     <!-- Tarjeta con la puntuación final -->
-                    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-lg mb-8 text-center">
+                    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-800 p-4 rounded-lg mb-8 text-center">
                         <p class="font-bold text-lg">Puntuación Final</p>
-                        <p class="text-5xl font-extrabold"><span id="final-score"></span> / 40</p>
+                        <p class="text-5xl font-extrabold"><span id="final-score"></span> / <span id="total-score"></span></p>
                     </div>
                     
                     <!-- Contenedor para la revisión y feedback de cada pregunta -->
@@ -170,7 +172,6 @@
                     
                     <!-- Sección final con el estado del envío automático -->
                     <div class="mt-8 text-center">
-                         <!-- El botón de correo manual se ha eliminado. El estado del envío automático se mostrará a continuación. -->
                          <p id="save-status" class="text-sm font-semibold mt-4"></p>
                     </div>
                 </div>
@@ -195,119 +196,28 @@
     // --- Espera a que todo el contenido del DOM esté cargado para ejecutar el script ---
     document.addEventListener('DOMContentLoaded', () => {
         
-        // --- BASE DE DATOS DE PREGUNTAS DEL EXAMEN ---
-        // Array de objetos, donde cada objeto representa una pregunta.
+        // --- BASE DE DATOS DE PREGUNTAS DEL EXAMEN (v4) ---
         const questions = [
-            {
-                question: "¿Cuál es el propósito principal de un Sistema de Automatización de Edificios (BAS)?",
-                options: [
-                    "Controlar exclusivamente la iluminación.",
-                    "Gestionar la seguridad perimetral del edificio.",
-                    "Centralizar y optimizar el control de sistemas mecánicos y eléctricos (HVAC, iluminación, etc.).",
-                    "Proveer acceso a internet de alta velocidad a los ocupantes.",
-                ],
-                correct: 2, // Índice de la respuesta correcta en el array 'options'
-                feedback: "Correcto. Un BAS (Building Automation System) integra y controla múltiples sistemas del edificio como Climatización (HVAC), iluminación y energía para mejorar la eficiencia y el confort."
-            },
-            {
-                question: "El protocolo de comunicación estándar y abierto más común en la automatización de edificios es:",
-                options: [
-                    "Modbus",
-                    "LonWorks",
-                    "KNX",
-                    "BACnet",
-                ],
-                correct: 3,
-                feedback: "Correcto. BACnet (Building Automation and Control Networks) es un estándar global diseñado específicamente para la automatización de edificios, permitiendo la interoperabilidad entre equipos de diferentes fabricantes."
-            },
-            {
-                question: "¿Qué representa el término 'HVAC' en el contexto de edificios inteligentes?",
-                options: [
-                    "High Voltage Alternating Current",
-                    "Heating, Ventilation, and Air Conditioning",
-                    "Human-Visible Access Control",
-                    "Home Video and Audio Control",
-                ],
-                correct: 1,
-                feedback: "Correcto. HVAC son las siglas en inglés para Calefacción, Ventilación y Aire Acondicionado, uno de los sistemas más importantes gestionados por un BAS para confort y eficiencia energética."
-            },
-            {
-                question: "En un sistema de iluminación inteligente, ¿qué tecnología permite direccionar y controlar luminarias de forma individual?",
-                options: [
-                    "Control 0-10V",
-                    "Control por fase",
-                    "DALI (Digital Addressable Lighting Interface)",
-                    "Switching simple",
-                ],
-                correct: 2,
-                feedback: "Correcto. DALI es un protocolo digital que permite la comunicación bidireccional con cada luminaria, lo que facilita el control individual, la dimerización y el reporte de estado."
-            },
-            {
-                question: "La 'convergencia de redes' en un edificio inteligente se refiere a:",
-                options: [
-                    "Tener múltiples redes WiFi para diferentes usuarios.",
-                    "Usar una única infraestructura de red IP para datos, voz, video y sistemas de automatización.",
-                    "Separar físicamente la red de control de la red de datos corporativa.",
-                    "Utilizar fibra óptica en lugar de cable de cobre.",
-                ],
-                correct: 1,
-                feedback: "Correcto. La convergencia implica unificar diferentes servicios y sistemas sobre una misma red basada en Protocolo de Internet (IP), simplificando la infraestructura y la gestión."
-            },
-            {
-                question: "¿Qué es el 'IoT' (Internet de las Cosas) en el contexto de un edificio inteligente?",
-                options: [
-                    "Un tipo de software para modelado 3D.",
-                    "Un estándar de seguridad informática.",
-                    "La red de sensores y dispositivos conectados a internet que recopilan e intercambian datos.",
-                    "Un sistema de cableado estructurado.",
-                ],
-                correct: 2,
-                feedback: "Correcto. El IoT se refiere a la vasta red de dispositivos físicos (sensores, actuadores) que se conectan a internet para recopilar información del entorno y actuar sobre él."
-            },
-            {
-                question: "Un sensor de ocupación PIR (Passive Infrared) detecta:",
-                options: [
-                    "Sonido",
-                    "Movimiento a través de ondas ultrasónicas.",
-                    "El calor corporal (energía infrarroja) emitido por las personas.",
-                    "Niveles de CO2 en el ambiente.",
-                ],
-                correct: 2,
-                feedback: "Correcto. Los sensores PIR son pasivos y detectan la radiación infrarroja emitida por los cuerpos, lo que los hace ideales para detectar presencia y automatizar la iluminación o el HVAC."
-            },
-            {
-                question: "¿Cuál de los siguientes es un beneficio clave del diseño de edificios inteligentes?",
-                options: [
-                    "Aumento del costo inicial de construcción únicamente.",
-                    "Mayor complejidad en el mantenimiento.",
-                    "Reducción de los costos operativos y del consumo de energía.",
-                    "Disminución de la comodidad de los ocupantes.",
-                ],
-                correct: 2,
-                feedback: "Correcto. Aunque puede haber una mayor inversión inicial, el principal beneficio a largo plazo es la optimización del uso de recursos, resultando en ahorros significativos."
-            },
-             {
-                question: "El concepto de 'Digital Twin' o Gemelo Digital en edificios se refiere a:",
-                options: [
-                    "Un segundo edificio idéntico construido como respaldo.",
-                    "Una réplica virtual y dinámica del edificio físico, sus sistemas y procesos.",
-                    "El manual de operaciones en formato PDF.",
-                    "Un sistema de control de acceso biométrico.",
-                ],
-                correct: 1,
-                feedback: "Correcto. Un Gemelo Digital es un modelo virtual que se actualiza en tiempo real con datos de sensores del edificio real. Se usa para simulación, análisis predictivo y optimización."
-            },
-            {
-                question: "¿Qué es el Cableado Estructurado?",
-                options: [
-                    "Un método para organizar cables de forma desordenada.",
-                    "Un sistema de cableado diseñado para un solo tipo de aplicación, como telefonía.",
-                    "Un sistema estandarizado de cables y hardware que forma una infraestructura de telecomunicaciones completa.",
-                    "El cableado que conecta los interruptores a las luces.",
-                ],
-                correct: 2,
-                feedback: "Correcto. El Cableado Estructurado es un enfoque metódico y estandarizado para instalar la infraestructura de red de un edificio, asegurando flexibilidad y escalabilidad."
-            }
+            { question: "1. Según el documento, ¿cuáles son los cuatro pilares fundamentales de la automatización de edificios?", options: [ "Confort, Energía, Seguridad y Comunicación.", "Arquitectura, Ingeniería, Construcción y Mantenimiento.", "Sensores, Actuadores, Controladores y Software.", "Ahorro, Eficiencia, Innovación y Tecnología." ], correct: 0, points: 2, rationale: "¡Correcto! Estos son los cuatro pilares mencionados directamente en la presentación como las bases de la automatización." },
+            { question: "2. ¿Qué tipo de señal es caracterizada por tener solo dos estados, como 'TODO/NADA' o 'NC/NO'?", options: [ "Señal Digital.", "Señal Analógica.", "Señal Proporcional.", "Señal PWM." ], correct: 0, points: 2, rationale: "¡Correcto! La presentación define las señales digitales como de tipo 'TODO/NADA', con ejemplos como Normalmente Cerrado (NC) y Normalmente Abierto (NO)." },
+            { question: "3. ¿Cuál es el primer paso a seguir en la metodología de diseño para grandes instalaciones?", options: [ "Definir cada área del proyecto como BMS o RMS.", "Definir el subsistema a diseñar (iluminación, clima, etc.).", "Documentar la memoria descriptiva y los planos.", "Definir la estrategia de control para el subsistema." ], correct: 0, points: 2, rationale: "¡Correcto! La metodología presentada indica que el primer paso es definir y separar las áreas que pertenecerán al BMS (áreas comunes) y al RMS (áreas privadas)." },
+            { question: "4. ¿Qué tecnología de comunicación se menciona como un estándar abierto para medianas y grandes instalaciones, regulado por la norma ISO 16484?", options: [ "BACnet.", "KNX.", "LonWorks.", "Modbus." ], correct: 0, points: 2, rationale: "¡Correcto! La presentación lo identifica como un estándar bajo la norma ISO 16484, ideal para grandes instalaciones." },
+            { question: "5. En la gestión de un sistema de climatización por agua helada, ¿qué elemento se utiliza para controlar el flujo de agua en las unidades terminales (UMAs)?", options: [ "Válvula proporcional.", "Termostato.", "Sensor de presión.", "Contactor." ], correct: 0, points: 2, rationale: "¡Correcto! En el listado de control para las unidades internas, se especifica una 'Válvula de agua helada del Fancoil' con una señal de control, lo que implica una válvula proporcional." },
+            { question: "6. ¿Qué es una 'Pasarela' (Gateway) en el contexto de la integración de sistemas?", options: [ "Un dispositivo que traduce y comunica protocolos diferentes.", "Un software para la visualización de datos (SCADA).", "Un tipo de sensor para medir el consumo eléctrico.", "El controlador principal de todo el edificio (BMS)." ], correct: 0, points: 2, rationale: "¡Correcto! Se describe como una solución para la integración cuando no es nativa, permitiendo que sistemas con protocolos distintos puedan comunicarse." },
+            { question: "7. En el ciclo de gestión energética, ¿qué acción sigue inmediatamente después de 'Analizar'?", options: [ "Actuar.", "Medir.", "Supervisar.", "Optimizar." ], correct: 0, points: 2, rationale: "¡Correcto! El diagrama del ciclo de gestión energética muestra claramente que el paso siguiente a 'Analizar' es 'Actuar'." },
+            { question: "8. ¿Qué tipo de actuadores son descritos como 'Regulable, Ajustable, Posicionales'?", options: [ "Proporcionales.", "Digitales.", "Analógicos.", "Resistivos." ], correct: 0, points: 2, rationale: "¡Correcto! Esta descripción corresponde a los actuadores proporcionales, que pueden operar en un rango de valores, a diferencia de los de 'TODO/NADA'." },
+            { question: "9. ¿Qué actor del mercado es responsable de la 'Ingeniería de detalle para la puesta en marcha'?", options: [ "Integrador.", "Proyectista.", "Promotor.", "Agente de comisionamiento." ], correct: 0, points: 2, rationale: "¡Correcto! En la línea de vida del proyecto, la 'Ingeniería de detalle' es una fase posterior a la contratación, y es una responsabilidad típica del integrador del sistema." },
+            { question: "10. En la documentación de un proyecto, ¿cuál es el propósito de una 'Matriz de Responsabilidades'?", options: [ "Definir y delimitar claramente las tareas de cada empresa o especialista involucrado.", "Estimar los costos detallados de los equipos y la mano de obra del proyecto.", "Proporcionar los manuales de operación y mantenimiento.", "Mostrar la ubicación física de los equipos en un plano." ], correct: 0, points: 2, rationale: "¡Correcto! La matriz asigna actividades específicas a las diferentes partes para evitar confusiones." },
+            { question: "11. ¿Qué subsistema se encarga del control de equipos como chillers, UMAs y VAVs?", options: [ "Climatización (HVAC).", "Renovación del aire.", "Sistemas sanitarios.", "Control de acceso." ], correct: 0, points: 2, rationale: "¡Correcto! Estos equipos son componentes centrales del sistema de climatización." },
+            { question: "12. ¿Cuál es la diferencia principal entre un sistema de climatización VRF/VRV y uno de agua helada?", options: [ "El fluido que utilizan para transportar la energía térmica (refrigerante vs. agua).", "Los sistemas de agua helada no necesitan unidades exteriores.", "Los sistemas VRF/VRV no permiten control individual por zona.", "Los sistemas de agua helada son exclusivamente para edificios pequeños." ], correct: 0, points: 2, rationale: "¡Correcto! Los sistemas VRF usan refrigerante para climatizar, mientras que los sistemas de agua helada usan agua enfriada por un chiller." },
+            { question: "13. En la documentación de un proyecto de automatización, ¿qué entregable contiene el listado detallado de todos los puntos de control (entradas/salidas)?", options: [ "Listado de Control y Cómputos.", "Memoria Descriptiva.", "Planos y Diagramas.", "Especificaciones Técnicas." ], correct: 0, points: 2, rationale: "¡Correcto! Este documento contiene la lista detallada de cada punto de control con su tipo y ubicación." },
+            { question: "14. ¿Qué tipo de sensor se utiliza para detectar si un ventilador o una bomba está funcionando, midiendo el paso de electricidad?", options: [ "Sensor de corriente.", "Detector de flujo de paleta.", "Detector de presión diferencial.", "Termostato." ], correct: 0, points: 2, rationale: "¡Correcto! Se menciona el uso de sensores de corriente para monitorear el estado (funcionamiento) de bombas y ventiladores." },
+            { question: "15. ¿Cuál de las siguientes es una tecnología de comunicación cerrada o propietaria?", options: [ "Lutron.", "BACnet.", "KNX.", "LonWorks." ], correct: 0, points: 3, rationale: "¡Correcto! Lutron es conocido por sus sistemas propietarios, a diferencia de estándares abiertos como BACnet o KNX." },
+            { question: "16. ¿Qué es el 'Facility Management'?", options: [ "Una disciplina para asegurar y gestionar el mejor funcionamiento de los inmuebles y sus servicios asociados.", "El proceso de construcción de un nuevo edificio.", "La gestión de un único sistema, como el aire acondicionado.", "El diseño arquitectónico y de interiores de una instalación." ], correct: 0, points: 3, rationale: "¡Correcto! Esta es la definición textual que se proporciona en la presentación, abarcando la integración de personas, espacios y procesos." },
+            { question: "17. Dentro de la línea de vida de un proyecto, ¿en qué fase se realiza el 'Comisionamiento de la red'?", options: [ "Obra Construida.", "Pre-diseño.", "Diseño de Arquitectura.", "Construcción de obra." ], correct: 0, points: 3, rationale: "¡Correcto! El comisionamiento es un proceso de aseguramiento de la calidad que verifica que la obra entregada funciona según lo proyectado." },
+            { question: "18. En un pasillo largo con múltiples ventanas que reciben abundante luz solar, ¿qué combinación de estrategias de control de iluminación sería la más eficiente?", options: [ "Instalar detectores de presencia y sensores de luminosidad para regular la intensidad.", "Utilizar únicamente una estrategia por horarios.", "Instalar únicamente detectores de presencia.", "Instalar únicamente sensores de luminosidad." ], correct: 0, points: 3, rationale: "¡Correcto! Esta es la solución más completa y eficiente, ya que combina el ahorro por ocupación con el ahorro por aprovechamiento de luz natural (dimming)." },
+            { question: "19. Se diseña el control para un quirófano de hospital, donde se exige presión de aire positiva. ¿Qué instrumentación es indispensable para esta estrategia?", options: [ "Un transductor de presión diferencial y un variador de frecuencia (VFD) en la UMA.", "Un termostato de alta precisión y un selector de modo.", "Sensores de CO2 en el quirófano y en el pasillo.", "Un detector de flujo de aire y un contactor para el ventilador." ], correct: 0, points: 3, rationale: "¡Correcto! Se necesita un transductor de presión diferencial para medir la variable clave, y un VFD para regular la velocidad del ventilador y mantener dicha presión." },
+            { question: "20. En un listado de control se requiere una 'Tarjeta de comunicación' para cada Chiller. ¿Cuál es el propósito más probable de este componente?", options: [ "Permitir al BMS comunicarse con el chiller vía protocolo para monitorear variables internas sin cableado individual.", "Funcionar como la fuente de alimentación principal para el chiller.", "Permitir al chiller conectarse a internet para descargar actualizaciones.", "Servir como un selector manual para el personal de mantenimiento." ], correct: 0, points: 3, rationale: "¡Correcto! La tarjeta de comunicación permite obtener toda la información interna del equipo a través de un único cable de red, simplificando la instalación." }
         ];
         
         // --- VARIABLES DE ESTADO Y CONFIGURACIÓN ---
@@ -316,8 +226,7 @@
         let userInfo = {}; // Objeto para guardar la información del estudiante.
         let timerInterval; // Variable para el intervalo del temporizador.
         let secondsElapsed = 0; // Contador de segundos transcurridos.
-        const totalPoints = 40; // Puntuación total posible del examen.
-        // ACTUALIZADO: La URL de la aplicación web ahora está incluida directamente.
+        const totalPoints = questions.reduce((sum, q) => sum + q.points, 0); // Puntuación total posible del examen.
         const gasWebAppUrl = 'https://script.google.com/macros/s/AKfycbwxtLsJ4P1CBjGHxJCbJ5mZQyJS0RIDopEomKEYspEVHuzVCkJIJDmST6y753bu-nuocg/exec';
 
         // --- REFERENCIAS A ELEMENTOS DEL DOM ---
@@ -338,8 +247,9 @@
         const confirmFinishBtn = document.getElementById('confirm-finish-btn');
         const cancelFinishBtn = document.getElementById('cancel-finish-btn');
         const finalScoreEl = document.getElementById('final-score');
+        const totalScoreEl = document.getElementById('total-score');
         const feedbackContainer = document.getElementById('feedback-container');
-        const saveStatusEl = document.getElementById('save-status'); // Referencia al elemento de estado.
+        const saveStatusEl = document.getElementById('save-status');
 
         // --- FUNCIONES PRINCIPALES DEL EXAMEN ---
 
@@ -358,12 +268,11 @@
 
         function loadQuestion(index) {
             const question = questions[index];
-            const fullOptions = [...question.options, "Todas las anteriores.", "Ninguna de las anteriores."];
             questionNumberEl.textContent = index + 1;
-            questionTextEl.textContent = question.question;
+            questionTextEl.innerHTML = `<span class="font-semibold">${question.question}</span> <span class="text-sm font-normal text-gray-500">(${question.points} puntos)</span>`;
             optionsContainer.innerHTML = '';
 
-            fullOptions.forEach((option, i) => {
+            question.options.forEach((option, i) => {
                 const isChecked = userAnswers[index] === i;
                 const optionId = `q${index}_option${i}`;
                 const optionElement = document.createElement('label');
@@ -438,98 +347,92 @@
             quizView.classList.add('hidden');
             evaluatingView.classList.remove('hidden');
             const evalProgressBar = document.getElementById('eval-progress-bar');
-            evalProgressBar.style.width = '100%';
             
-            setTimeout(() => {
-                evaluatingView.classList.add('hidden');
-                calculateAndShowResults();
-            }, 5000);
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                evalProgressBar.style.width = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        evaluatingView.classList.add('hidden');
+                        calculateAndShowResults();
+                    }, 500);
+                }
+            }, 200);
+        }
+        
+        function calculateScore() {
+            return userAnswers.reduce((score, answer, index) => {
+                if (answer === questions[index].correct) {
+                    return score + questions[index].points;
+                }
+                return score;
+            }, 0);
         }
 
         function calculateAndShowResults() {
-            let correctAnswers = 0;
-            userAnswers.forEach((answer, index) => {
-                if (answer === questions[index].correct) {
-                    correctAnswers++;
-                }
-            });
-
-            const score = (correctAnswers / questions.length) * totalPoints;
-            finalScoreEl.textContent = score.toFixed(2);
+            const score = calculateScore();
+            finalScoreEl.textContent = score;
+            totalScoreEl.textContent = totalPoints;
             feedbackContainer.innerHTML = '';
             questions.forEach((q, index) => {
                 const userAnswerIndex = userAnswers[index];
-                const fullOptions = [...q.options, "Todas las anteriores.", "Ninguna de las anteriores."];
-                const userAnswerText = userAnswerIndex !== null ? fullOptions[userAnswerIndex] : "No respondida";
+                const userAnswerText = userAnswerIndex !== null ? q.options[userAnswerIndex] : "No respondida";
                 const isCorrect = userAnswerIndex === q.correct;
 
                 const feedbackElement = document.createElement('div');
                 feedbackElement.className = `p-4 mb-4 rounded-lg border-l-4 ${isCorrect ? 'bg-green-50 border-green-500' : 'bg-red-50 border-red-500'}`;
                 feedbackElement.innerHTML = `
-                    <p class="font-bold text-gray-800">${index + 1}. ${q.question}</p>
+                    <p class="font-bold text-gray-800">${q.question}</p>
                     <p class="mt-2 text-sm">Tu respuesta: <span class="font-semibold">${userAnswerText}</span></p>
-                    <p class="mt-1 text-sm ${isCorrect ? 'text-green-700' : 'text-red-700'}">${isCorrect ? '¡Correcto!' : 'Incorrecto.'}</p>
-                    <p class="mt-2 text-xs text-gray-600">${q.feedback}</p>
+                    ${!isCorrect && userAnswerIndex !== null ? `<p class="mt-1 text-sm">Respuesta correcta: <span class="font-semibold">${q.options[q.correct]}</span></p>` : ''}
+                    <p class="mt-2 text-xs text-gray-600">${q.rationale}</p>
                 `;
                 feedbackContainer.appendChild(feedbackElement);
             });
             
             resultsView.classList.remove('hidden');
-            sendDataToGoogleSheets();
+            sendDataToWebApp();
         }
 
-        /**
-         * Envía los datos del examen a la aplicación web de Google Apps Script.
-         * El script se encarga de guardar en la hoja y enviar el correo.
-         */
-        async function sendDataToGoogleSheets() {
-            // Mostrar estado inicial de guardado.
+        async function sendDataToWebApp() {
             saveStatusEl.textContent = 'Procesando resultados y enviando notificación...';
             saveStatusEl.className = 'text-sm font-semibold mt-4 text-gray-500';
 
-            const formData = new FormData();
-            formData.append('sheetName', 'Test1-DiseñoEdificiosInteligentes-06.2025');
-            formData.append('timestamp', new Date().toLocaleString('es-VE'));
-            formData.append('firstName', userInfo.firstName);
-            formData.append('lastName', userInfo.lastName);
-            formData.append('email', userInfo.email);
-            formData.append('score', finalScoreEl.textContent);
-            formData.append('totalPoints', totalPoints);
-            formData.append('timeTaken', formatTime(secondsElapsed));
-            
-            questions.forEach((q, i) => {
-                 const fullOptions = [...q.options, "Todas las anteriores.", "Ninguna de las anteriores."];
-                 const userAnswerText = userAnswers[i] !== null ? fullOptions[userAnswers[i]] : "No respondida";
-                 formData.append(`question_${i+1}`, q.question);
-                 formData.append(`answer_${i+1}`, userAnswerText);
-                 formData.append(`isCorrect_${i+1}`, userAnswers[i] === q.correct);
-            });
+            const payload = {
+                sheetName: 'Resultados-ExamenFinal-M3-v1',
+                timestamp: new Date().toLocaleString('es-VE', { timeZone: 'America/Caracas' }),
+                firstName: userInfo.firstName,
+                lastName: userInfo.lastName,
+                email: userInfo.email,
+                score: calculateScore(),
+                totalPoints: totalPoints,
+                timeTaken: formatTime(secondsElapsed),
+                answers: questions.map((q, i) => ({
+                    question: q.question,
+                    userAnswer: userAnswers[i] !== null ? q.options[userAnswers[i]] : "No respondida",
+                    correctAnswer: q.options[q.correct],
+                    isCorrect: userAnswers[i] === q.correct
+                }))
+            };
 
             try {
                 const response = await fetch(gasWebAppUrl, {
                     method: 'POST',
-                    body: formData,
+                    mode: 'no-cors', // Necesario para evitar errores de CORS con Google Apps Script
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
                 
-                const result = await response.json();
-                
-                // La respuesta del script ahora contiene el estado de la hoja y del correo.
-                if (result.sheet.status === 'success' && result.email.status === 'success') {
-                    // Actualizar UI para mostrar éxito total.
-                    saveStatusEl.textContent = 'Resultados guardados y correo enviado correctamente.';
-                    saveStatusEl.className = 'text-sm font-semibold mt-4 text-green-600';
-                } else {
-                    // Construir un mensaje de error más detallado si algo falla.
-                    let errorMessage = `Hoja: ${result.sheet.message} | Correo: ${result.email.message}`;
-                    throw new Error(errorMessage);
-                }
+                // Con no-cors no podemos leer la respuesta, así que asumimos éxito si no hay error de red.
+                saveStatusEl.textContent = 'Resultados enviados para su procesamiento. Recibirás una notificación por correo.';
+                saveStatusEl.className = 'text-sm font-semibold mt-4 text-green-600';
 
             } catch (error) {
-                // Actualizar UI para mostrar el error.
-                saveStatusEl.textContent = `Error en el envío automático: ${error.message}`;
+                saveStatusEl.textContent = `Error en el envío automático. Por favor, reporta tu resultado manualmente.`;
                 saveStatusEl.className = 'text-sm font-semibold mt-4 text-red-600';
-                
-                console.error('Error al enviar datos a Google Sheets:', error);
+                console.error('Error al enviar datos:', error);
             }
         }
 
